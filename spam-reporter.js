@@ -1,15 +1,14 @@
 $(document).ready(function () {
-  var abuseIP;
 
   $("#btnClear").click(function () {
-    $('#raw').val('');
-    $('#draft').text('');
+    $("#raw").val("");
+    $("#draft").text("");
   });
 
   $("#btnDraft").click(function () {
-    var str = $('#raw').val();
+    var str = $("#raw").val();
 
-    var emailHeader = '';
+    var emailHeader = "";
 
     if ((/\n\n/.exec(str)) !== null) {
       emailHeader = str.substring(0, (/\n\n/.exec(str)).index);
@@ -20,30 +19,36 @@ $(document).ready(function () {
     //console.log(emailHeader);
 
     const regexAbuseIP = /Received: from.*?(?:\[(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\]|\((\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\)|(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}))/gm;
-    const regexAbuseDate = /Date: (.*)/gm;
+    var regexAbuseDate = /Date: (.*)/gm;
 
-    var matchesRegexAbuseIP = regexAbuseIP.exec(emailHeader);
-    if (matchesRegexAbuseIP !== null) {
-      //console.log(matchesRegexAbuseIP);
-      abuseIP = matchesRegexAbuseIP[1] || matchesRegexAbuseIP[2] || matchesRegexAbuseIP[3];
+    var abuseIP;
+    var matchesRegexAbuseIP = emailHeader.matchAll(regexAbuseIP);
+    for (match of matchesRegexAbuseIP) {
+      abuseIP = match[1] || match[2] || match[3];
+      if (abuseIP.substring(0, abuseIP.indexOf(".")) !== "10") {
+        //console.log(abuseIP);
+        break;
+      }
     }
-    //console.log('Source IP address: ' + abuseIP);
 
     var abuseDateTime;
     var matchesRegexAbuseDate = regexAbuseDate.exec(emailHeader);
     if (matchesRegexAbuseDate !== null) {
-      //console.log(matchesRegexAbuseDate);
       abuseDateTime = matchesRegexAbuseDate[1];
+      //console.log(abuseDateTime);
     }
-    //console.log('Date and time of abuse: ' + abuseDateTime);
 
-    var draftMessage = 'Source IP address: ' + abuseIP + '\n\n' +
-      'Date and time of abuse: ' + abuseDateTime + '\n\n' +
-      'Type of abuse: Spam abuse. Recipient did not consent to receiving emails from the sender. No effective unsubscribe mechanisms are provided by the sender. This combination of lack of consent and absent unsubscribe options constitutes a clear violation of anti-spam policies and necessitates prompt action to prevent further abuse.' + '\n\n' +
-      'Complete email headers:' + '\n\n' +
+    var draftMessage = "Source IP address: " + abuseIP + "\n\n" +
+      "Date and time of abuse: " + abuseDateTime + "\n\n" +
+      "Type of abuse: Spam abuse. Recipient did not consent to receiving " +
+      "emails from the sender. No effective unsubscribe mechanisms are " +
+      "provided by the sender. This combination of lack of consent and " +
+      "absent unsubscribe options constitutes a clear violation of anti-spam " +
+      "policies and necessitates prompt action to prevent further abuse.\n\n" +
+      "Complete email headers:" + "\n\n" +
       emailHeader;
 
-    $('#draft').text(draftMessage);
+    $("#draft").text(draftMessage);
   });
 
   $("#btnCopy").click(function () {
@@ -55,6 +60,6 @@ $(document).ready(function () {
   });
 
   $("#btnWhois").click(function () {
-    open('https://bgp.he.net/ip/' + abuseIP + '#_whois', '_blank');
+    open("https://bgp.he.net/ip/" + abuseIP + "#_whois", "_blank");
   });
 });
