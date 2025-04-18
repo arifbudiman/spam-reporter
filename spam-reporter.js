@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+  var abuseIP;
+
   $("#btnClear").click(function () {
     $("#raw").val("");
     $("#draft").text("");
@@ -21,7 +23,6 @@ $(document).ready(function () {
     const regexAbuseIP = /Received: from.*?(?:\[(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\]|\((\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\)|(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}))/gm;
     var regexAbuseDate = /Date: (.*)/gm;
 
-    var abuseIP;
     var matchesRegexAbuseIP = emailHeader.matchAll(regexAbuseIP);
     for (match of matchesRegexAbuseIP) {
       abuseIP = match[1] || match[2] || match[3];
