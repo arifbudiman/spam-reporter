@@ -41,11 +41,11 @@ $(document).ready(function () {
 
     var draftMessage = "Source IP address: " + abuseIP + "\n\n" +
       "Date and time of abuse: " + abuseDateTime + "\n\n" +
-      "Type of abuse: Spam abuse. Recipient did not consent to receiving " +
-      "emails from the sender. No effective unsubscribe mechanisms are " +
-      "provided by the sender. This combination of lack of consent and " +
-      "absent unsubscribe options constitutes a clear violation of anti-spam " +
-      "policies and necessitates prompt action to prevent further abuse.\n\n" +
+      "Type of abuse: Spam abuse. " +
+      "Recipient did not consent to receiving emails from the sender. " +
+      "Sender lacks adequate email address verification and blindly spams unverified email addresses. " +
+      "No effective unsubscribe mechanisms are provided by the sender. " +
+      "This combination of lack of consent, inadequate verification, and absent unsubscribe options constitutes a clear violation of anti-spam policies and necessitates prompt action to prevent further abuse.\n\n" +
       "Complete email headers:" + "\n\n" +
       emailHeader;
 
